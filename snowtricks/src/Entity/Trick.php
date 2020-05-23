@@ -76,6 +76,15 @@ class Trick
         }
     }
 
+    /**
+     * Initialize createdAt datetime
+     * @ORM\PrePersist()
+     */
+    public function initializeCreatedAt()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
