@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page du trick : {{ trick.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="trick-title mt-5" style="background-image: url({{ url('homepage') ~ trick.getCoverImageUrl}})">
+        <div class="container" id="tricks">
+            <h1>{{ trick.title }}</h1>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+                {% for image in trick.images %}
+                    <div class="col-md-2">
+                        <img src="{{ image.url }}" class="trick-image" alt="Image du trick {{ trick.title }}">
+                    </div>
+                {% endfor %}
+                {% for video in trick.videos %}
+                    <div class="col-md-2 my-2">
+                        <embed type="video/webm"
+                               src="{{ video.url }}"
+                               width="200"
+                               height="150">
+                    </div>
+                {% endfor %}
+            </div>
+        <hr>
+        <div class="jumbotron">
+            <p class="text-center mt-auto">{{ trick.content }}</p>
+            <div class="row">
+
+                <span class="badge badge-pill badge-primary mr-2">Catégorie: {{ trick.category.title }}</span>
+
+                <span class="badge badge-pill badge-success mr-2">Créé le: {{ trick.createdat | date('d-m-Y') }}</span>
+                {% if trick.updatedAt is not null %}
+                <span class="badge badge-pill badge-info mr-2">Modifié le : {{ trick.updatedat | date('d-m-Y')}}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

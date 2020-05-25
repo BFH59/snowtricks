@@ -14,6 +14,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Trick
 {
+
+    const IMG_DIR = 'uploads/image/';
+
+    public function getCoverImageUrl()
+    {
+        return self::IMG_DIR . $this->coverImage;
+    }
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -63,6 +70,11 @@ class Trick
     private $category;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
      * initialize trick slug
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -74,6 +86,23 @@ class Trick
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->title);
         }
+    }
+
+    /**
+     * Initialize createdAt datetime
+     * @ORM\PrePersist()
+     */
+    public function initializeCreatedAt()
+    {
+        $this->createdAt = new \DateTime();
+    }
+    /**
+     * Initialize updatedAt datetime after trick update
+     * @ORM\PreUpdate()
+     */
+    public function initializeUpdatedAt()
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     public function __construct()
@@ -217,6 +246,18 @@ class Trick
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
