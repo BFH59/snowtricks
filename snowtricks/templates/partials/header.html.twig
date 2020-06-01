@@ -15,3 +15,13 @@
         </ul>
     </div>
 </nav>
+{% for label, messages in app.flashes %}
+    <div class="container mt-5">
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                <p>{{ message | raw }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endfor %}

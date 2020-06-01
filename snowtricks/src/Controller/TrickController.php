@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Service\FileUploader;
 use App\Entity\Trick;
 use App\Form\TrickType;
@@ -30,13 +31,38 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $coverImage = $form['coverImage']->getData();
+            //manage cover image
             if ($coverImage) {
                 $coverImageFileName = $fileUploader->upload($coverImage);
                 $trick->setCoverImage($coverImageFileName);
             }
 
+            //manage others images uploaded by user
+            $pos = 0;
+            if ($form['images'][$pos]['url']->getData()) {
+                foreach ($trick->getImages() as $images) {
+                    $images->setUrl($fileUploader->upload($form['images'][$pos]['url']->getData()));
+                    $images->setTrick($trick);
+                    $manager->persist($images);
+                    $pos++;
+                }
+            }
+            foreach ($trick->getVideos() as $videos){
+                $videos->setTrick($trick);
+                $manager->persist($videos);
+            }
+
             $manager->persist($trick);
             $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre figure <strong> {$trick->getTitle()}</strong> a bien été enregistrée !"
+            );
+
+            return $this->redirectToRoute('trick_show', [
+                'slug' => $trick->getSlug()
+            ]);
         }
         return $this->render('trick/new.html.twig', [
             'form' => $form->createView()
