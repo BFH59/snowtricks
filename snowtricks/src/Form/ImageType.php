@@ -20,6 +20,9 @@ class ImageType extends ApplicationType
 
                     [
                         'label' => "Images",
+                        'attr' => [
+                            'placeholder' => 'Uploadez une image'
+                        ],
                         'mapped' => false,
                         'required' => false,
                         'constraints' => [

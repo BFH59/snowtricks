@@ -33,6 +33,9 @@ class TrickType extends ApplicationType
 
                     [
                         'label' => 'Image principale',
+                        'attr' => [
+                            'placeholder' => 'Uploadez une image'
+                        ],
                         'mapped' => false,
                         'required' => false,
                         'constraints' => [
@@ -58,6 +61,7 @@ class TrickType extends ApplicationType
             )
             ->add('images',
                 CollectionType::class,
+
         [
             'entry_type' => ImageType::class,
             'allow_add' => true,

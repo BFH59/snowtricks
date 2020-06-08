@@ -91,3 +91,7 @@ div.trick-title {
         margin-bottom: 30px;
     }
 }
+
+.custom-file-input ~ .custom-file-label:lang(fr)::after {
+    content: "Choisir...";
+}
