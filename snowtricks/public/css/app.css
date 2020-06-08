@@ -95,3 +95,19 @@ div.trick-title {
 .custom-file-input ~ .custom-file-label:lang(fr)::after {
     content: "Choisir...";
 }
+
+.avatar {
+    max-width: 128px;
+    max-height: 128px;
+    border-radius: 50%;
+}
+
+.avatar-medium{
+    max-width: 64px;
+    max-height: 64px;
+}
+
+.avatar-mini{
+    max-width: 24px;
+    max-height: 24px;
+}

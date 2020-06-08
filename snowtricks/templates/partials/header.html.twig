@@ -13,6 +13,27 @@
                 <a class="nav-link" href="#tricks">Tricks</a>
             </li>
         </ul>
+        <ul class="navbar-nav">
+        {% if app.user %}
+            <li class="nav-itm dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                    <img src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ app.user.getAvatarUrl }}" class="avatar avatar-mini" alt="avatar de {{ app.user.fullName }}">{{ app.user.fullName }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
+                    <a href="{{ path('trick_create') }}" class="dropdown-item">Créer une figure</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ path('account_logout') }}" class="dropdown-item">Me déconnecter</a>
+                </div>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a href="{{ path('account_register') }}" class="nav-link">S'incrire</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ path('account_login') }}" class="nav-link">Se connecter</a>
+            </li>
+        {% endif %}
+        </ul>
     </div>
 </nav>
 {% for label, messages in app.flashes %}
