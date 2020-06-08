@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Image;
+use App\Entity\Role;
 use App\Entity\Trick;
 use App\Entity\Video;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -14,15 +15,13 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
 
+        //creation du role membre
+        $memberRole = new Role();
+        $memberRole->setTitle('ROLE_MEMBER');
+        $manager->persist($memberRole);
+
+
         //création des 3 catégories
-        /**
-        $trickCats = ["GRABS", "ROTATION", "FLIPS"];
-        foreach ($trickCats as $singleCat) {
-            $category = new Category();
-            $category->setTitle($singleCat);
-            $this->addReference($singleCat, $category);
-            $manager->persist($category);
-        }*/
 
         $grabs = new Category();
         $grabs->setTitle('GRABS');

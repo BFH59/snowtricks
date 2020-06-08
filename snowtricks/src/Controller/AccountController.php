@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AccountType;
 use App\Form\RegistrationType;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +59,7 @@ class AccountController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $avatar = $form['avatar']->getData();
             if ($avatar) {
                 $avatarFileName = $fileUploader->upload($avatar);
@@ -78,6 +80,42 @@ class AccountController extends AbstractController
         }
 
         return $this->render('account/register.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("account/profile", name="account_profile")
+     * @IsGranted("ROLE_USER")
+     * @param Request $request
+     * @param User $user
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function profile(Request $request, EntityManagerInterface $manager, FileUploader $fileUploader)
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(AccountType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $avatar = $form['avatar']->getData();
+            if ($avatar) {
+                $avatarFileName = $fileUploader->upload($avatar);
+                $user->setAvatar($avatarFileName);
+            }
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Les modifications de votre ont bien été enregistrées !"
+            );
+
+            return $this->redirectToRoute('account_profile');
+        }
+
+        return $this->render('account/edit.html.twig', [
             'form' => $form->createView()
         ]);
     }
