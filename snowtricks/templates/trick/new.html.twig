@@ -8,22 +8,22 @@
 
 {% block body %}
     <div class="container mt-5">
+        {{ form_start(form) }}
         <h1>Page de création d'une figure</h1>
         <div class="jumbotron">
         <div class="row mt-3 mb-5">
                 <div class="col">
-                    <span>Sélectionnez une catégorie..</span>
+                    <p>Sélectionnez une catégorie..</p>
                     {{ form_widget(form.category) }}
                 </div>
                 <div class="col">
-                    <span>Ou créez en une nouvelle !</span><br>
+                    <p >Ou créez en une nouvelle !</p><br>
                     <a href="{{ path('create_category') }}">
                         <button type="button" class="btn btn-primary">Créer une catégorie</button>
                     </a>
                 </div>
             </div>
         </div>
-        {{ form_start(form) }}
 
         {{ form_widget(form) }}
 
