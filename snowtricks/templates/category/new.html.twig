@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'une nouvelle catégorie{% endblock %}
+
+{% block body %}
+        <div class="container mt-5">
+            <h1>Page de création d'une catégorie</h1>
+
+            <div class="jumbotron">
+                <h2>Catégories déjà crées :</h2>
+                <hr>
+
+                    <div class="row">
+                    {% for category in categories %}
+                        <div class="col">
+                        <span class="badge badge-pill badge-primary mr-auto mb-2">  {{ category.title }}</span>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+            </div>
+            {{ form_start(form) }}
+
+            {{ form_widget(form) }}
+
+            <button type="submit" class="btn btn-primary">Créer la catégorie</button>
+
+            {{ form_end(form) }}
+        </div>
+
+{% endblock %}

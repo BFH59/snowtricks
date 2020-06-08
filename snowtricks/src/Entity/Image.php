@@ -10,6 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Image
 {
+    const IMG_DIR = 'uploads/image/';
+
+    public function getImageUrl()
+    {
+        return self::IMG_DIR . $this->url;
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

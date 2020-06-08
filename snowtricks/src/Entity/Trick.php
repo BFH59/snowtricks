@@ -7,15 +7,21 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *     fields={"title"},
+ *     message="Une figure possède déjà ce nom, veuillez le modifier"
+ * )
  */
 class Trick
 {
 
     const IMG_DIR = 'uploads/image/';
+    const DEFAULT_COVER = 'bouledog-5ecbfce838967.jpeg';
 
     public function getCoverImageUrl()
     {
@@ -54,7 +60,7 @@ class Trick
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 
@@ -88,6 +94,18 @@ class Trick
         }
     }
 
+    /**
+     * Initialize default coverImage if null
+     * @ORM\PrePersist()
+     */
+
+    public function initializeDefaultCoverImage()
+    {
+        if(empty($this->coverImage))
+        {
+            $this->coverImage = self::DEFAULT_COVER;
+        }
+    }
     /**
      * Initialize createdAt datetime
      * @ORM\PrePersist()
