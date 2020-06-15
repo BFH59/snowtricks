@@ -7,7 +7,9 @@ use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends AbstractController
@@ -18,7 +20,7 @@ class CategoryController extends AbstractController
      * @param CategoryRepository $categoryRepository
      * @param Request $request
      * @param EntityManagerInterface $manager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function create(CategoryRepository $categoryRepository, Request $request, EntityManagerInterface $manager)
     {

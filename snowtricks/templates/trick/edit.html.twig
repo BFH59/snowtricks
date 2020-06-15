@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Page de modification d'un trick
+{% endblock %}
+
+{% form_theme form 'trick/_collection.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        {{ form_start(form) }}
+        <h1>Page de modification d'une figure</h1>
+        <div class="jumbotron">
+        <div class="row mt-3 mb-5">
+                <div class="col">
+                    <span>Sélectionnez une catégorie..</span>
+                    {{ form_widget(form.category) }}
+                </div>
+            </div>
+        </div>
+
+        {{ form_widget(form) }}
+
+        <button type="submit" class="btn btn-primary">Modifier la figure</button>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
