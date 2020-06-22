@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Image
 {
@@ -21,6 +22,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      */
     private $name;
 
@@ -48,6 +50,7 @@ class Image
      *  maxHeight = 1687,
      *  maxHeightMessage ="La hauteur de cette image est trop grande",
      *  )
+     *
      */
     private $file;
 

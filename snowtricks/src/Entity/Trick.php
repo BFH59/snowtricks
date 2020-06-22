@@ -26,11 +26,7 @@ class Trick
 
     public function getCoverImageUrl()
     {
-        if(is_null($this->coverImage)){
-            return self::IMG_DIR . self::DEFAULT_COVER;
-        }else{
-        return self::IMG_DIR . $this->coverImage->getName();
-        }
+        return self::IMG_DIR . $this->coverImage;
     }
 
     /**
@@ -56,8 +52,7 @@ class Trick
     private $content;
 
     /**
-     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
-     * @Assert\Valid()
+     * @ORM\Column(type="string", length=255)
      */
     private $coverImage;
 
@@ -101,6 +96,20 @@ class Trick
         {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->title);
+        }
+    }
+
+
+    /**
+     * Initialize default coverImage if null
+     * @ORM\PrePersist()
+     */
+
+    public function initializeDefaultCoverImage()
+    {
+        if(empty($this->coverImage))
+        {
+            $this->coverImage = self::DEFAULT_COVER;
         }
     }
 
@@ -168,12 +177,12 @@ class Trick
         return $this;
     }
 
-    public function getCoverImage(): ?Image
+    public function getCoverImage(): ?String
     {
         return $this->coverImage;
     }
 
-    public function setCoverImage(Image $coverImage): self
+    public function setCoverImage(string $coverImage): self
     {
         $this->coverImage = $coverImage;
 

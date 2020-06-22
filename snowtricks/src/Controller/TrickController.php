@@ -23,22 +23,22 @@ class TrickController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param ImageUploader $imageUploader
+     * @param FileUploader $fileUploader
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager, ImageUploader $imageUploader)
+    public function create(Request $request, EntityManagerInterface $manager, ImageUploader $imageUploader, FileUploader $fileUploader)
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $coverImage = $trick->getCoverImage();
-
-            if($coverImage) {
-                $coverImage->setTrick($trick);
-                $coverImage = $imageUploader->uploadImage($coverImage);
-                $manager->persist($coverImage);
-            }
+                $coverImage = $form['coverImage']->getData();
+                //manage cover image
+                if ($coverImage) {
+                    $coverImageFileName = $fileUploader->upload($coverImage);
+                    $trick->setCoverImage($coverImageFileName);
+                }
             //manage others images uploaded by user
             foreach($trick->getImages() as $image)
             {
@@ -75,29 +75,26 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param EntityManagerInterface $manager
      * @param ImageUploader $imageUploader
+     * @param FileUploader $fileUploader
      * @return Response
      * @throws \Exception
      */
-    public function edit(Request $request, Trick $trick, EntityManagerInterface $manager, ImageUploader $imageUploader)
+    public function edit(Request $request, Trick $trick, EntityManagerInterface $manager, ImageUploader $imageUploader, FileUploader $fileUploader)
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $coverImage = $trick->getCoverImage();
-
-            if($coverImage) {
-                dump($coverImage);
-                $manager->persist($coverImage);
-                $coverImage->setTrick($trick);
-                $imageUploader->uploadImage($coverImage);
-
+            $coverImage = $form['coverImage']->getData();
+            //manage cover image
+            if ($coverImage) {
+                $coverImageFileName = $fileUploader->upload($coverImage);
+                $trick->setCoverImage($coverImageFileName);
             }
             foreach($trick->getImages() as $image)
             {
-                $manager->persist($image);
                 $image->setTrick($trick);
-                $imageUploader->uploadImage($image);
-
+                $image = $imageUploader->uploadImage($image);
+                $manager->persist($image);
             }
             foreach ($trick->getVideos() as $videos){
                 $videos->setTrick($trick);
@@ -113,9 +110,9 @@ class TrickController extends AbstractController
                 "Les modifications de la figure : <strong> {$trick->getTitle()}</strong> ont bien été enregistrées !"
             );
 
-            /**return $this->redirectToRoute('trick_show',[
+            return $this->redirectToRoute('trick_show',[
                 'slug' => $trick->getSlug()
-            ]);*/
+            ]);
         }
 
         return $this->render('trick/edit.html.twig', [

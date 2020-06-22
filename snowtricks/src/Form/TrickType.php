@@ -29,11 +29,25 @@ class TrickType extends ApplicationType
                     'required' => false
                 ]))
             ->add('coverImage',
-                ImageType::class,
-                    $this->getConfiguration('Image principale', "téléchargez l'image principale",
-            [
-                'required' => false
-            ]))
+                FileType::class,
+
+                [
+                    'label' => 'Image principale',
+                    'attr' => [
+                        'placeholder' => 'Uploadez une image'
+                    ],
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new File([
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png',
+                            ],
+                            'mimeTypesMessage' => 'Veuillez uploader une image jpeg ou png',
+                        ])
+                    ]
+                ])
 
             ->add(
                 'content',
