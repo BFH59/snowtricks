@@ -31,23 +31,24 @@ class TrickType extends ApplicationType
             ->add('coverImage',
                 FileType::class,
 
-                    [
-                        'label' => 'Image principale',
-                        'attr' => [
-                            'placeholder' => 'Uploadez une image'
-                        ],
-                        'mapped' => false,
-                        'required' => false,
-                        'constraints' => [
-                            new File([
-                                'mimeTypes' => [
-                                    'image/jpeg',
-                                    'image/png',
-                                ],
-                                'mimeTypesMessage' => 'Veuillez uploader une image jpeg ou png',
-                            ])
-                        ]
-                    ])
+                [
+                    'label' => 'Image principale',
+                    'attr' => [
+                        'placeholder' => 'Uploadez une image'
+                    ],
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new File([
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png',
+                            ],
+                            'mimeTypesMessage' => 'Veuillez uploader une image jpeg ou png',
+                        ])
+                    ]
+                ])
+
             ->add(
                 'content',
                 TextType::class,

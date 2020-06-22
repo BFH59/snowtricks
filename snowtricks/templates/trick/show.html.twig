@@ -13,7 +13,7 @@
         <div class="row">
             {% for image in trick.images %}
                 <div class="col-md-2 mr-3">
-                    <img src="{{ url('homepage') ~ image.getImageUrl }}" class="trick-image img-fluid"
+                   <img src="{{ url('homepage') ~ image.getImageUrl }}" class="trick-image img-fluid"
                          alt="Image du trick {{ trick.title }}">
                 </div>
             {% endfor %}

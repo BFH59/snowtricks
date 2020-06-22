@@ -2,22 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Image
 {
-    const IMG_DIR = 'uploads/image/';
-
-    public function getImageUrl()
-    {
-        return self::IMG_DIR . $this->url;
-    }
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -27,35 +22,62 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull()
+     *
      */
-    private $url;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull()
+     * @Assert\NotBlank()
      */
     private $caption;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
+     */
+    private $path;
+
+    /**
+     * @Assert\Image(
+     *  mimeTypes= {"image/jpeg", "image/jpg", "image/png"},
+     *  mimeTypesMessage = "Le fichier doit etre au format .jpg, .jpeg ou .png",
+     *  minWidth = 500,
+     *  minWidthMessage = "La largeur de cette image est trop petite",
+     *  maxWidth = 3000,
+     *  maxWidthMessage = "La largeur de cette image est trop grande",
+     *  minHeight = 282,
+     *  minHeightMessage = "La hauteur de cette image est trop petite",
+     *  maxHeight = 1687,
+     *  maxHeightMessage ="La hauteur de cette image est trop grande",
+     *  )
+     *
+     */
+    private $file;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $trick;
+
+    public function getImageUrl()
+    {
+        return $this->getPath() .'/'. $this->getName();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    public function getName(): ?string
     {
-        return $this->url;
+        return $this->name;
     }
 
-    public function setUrl(string $url): self
+    public function setName(string $name): self
     {
-        $this->url = $url;
+        $this->name = $name;
 
         return $this;
     }
@@ -68,6 +90,30 @@ class Image
     public function setCaption(string $caption): self
     {
         $this->caption = $caption;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }
