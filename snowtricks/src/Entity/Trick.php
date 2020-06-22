@@ -26,8 +26,13 @@ class Trick
 
     public function getCoverImageUrl()
     {
-        return self::IMG_DIR . $this->coverImage;
+        if(is_null($this->coverImage)){
+            return self::IMG_DIR . self::DEFAULT_COVER;
+        }else{
+        return self::IMG_DIR . $this->coverImage->getName();
+        }
     }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -51,7 +56,8 @@ class Trick
     private $content;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToOne(targetEntity=Image::class, cascade={"persist", "remove"})
+     * @Assert\Valid()
      */
     private $coverImage;
 
@@ -61,14 +67,14 @@ class Trick
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      *
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     private $videos;
@@ -98,18 +104,6 @@ class Trick
         }
     }
 
-    /**
-     * Initialize default coverImage if null
-     * @ORM\PrePersist()
-     */
-
-    public function initializeDefaultCoverImage()
-    {
-        if(empty($this->coverImage))
-        {
-            $this->coverImage = self::DEFAULT_COVER;
-        }
-    }
     /**
      * Initialize createdAt datetime
      * @ORM\PrePersist()
@@ -174,12 +168,12 @@ class Trick
         return $this;
     }
 
-    public function getCoverImage(): ?string
+    public function getCoverImage(): ?Image
     {
         return $this->coverImage;
     }
 
-    public function setCoverImage(string $coverImage): self
+    public function setCoverImage(Image $coverImage): self
     {
         $this->coverImage = $coverImage;
 

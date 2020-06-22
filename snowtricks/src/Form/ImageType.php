@@ -15,26 +15,16 @@ class ImageType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url',
+            ->add('file',
                 FileType::class,
 
                     [
                         'label' => "Images",
+                        'required' => false,
                         'attr' => [
                             'placeholder' => 'Uploadez une image'
-                        ],
-                        'mapped' => false,
-                        'required' => false,
-                        'constraints' => [
-                            new File([
-                                'mimeTypes' => [
-                                    'image/jpeg',
-                                    'image/png',
-                                ],
-                                'mimeTypesMessage' => 'Veuillez uploader une image jpeg ou png',
-                            ])
                         ]
-                    ])
+                            ])
             ->add('caption', TextType::class, [
                 'attr' => [
                     'placeholder' => "titre de l'image"
