@@ -39,8 +39,8 @@
                                             <a href="{{ path('trick_edit', {'slug': trick.slug}) }}">
                                                 <span class="fa fa-pencil"></span>
                                             </a>
-                                            <a href="#">
-                                                <span class="fa fa-trash"></span>
+                                            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes vous sur de vouloir supprimer la figure : {{ trick.title }}')">
+                                                <span class="fa fa-trash text-danger"></span>
                                             </a>
                                         {% endif %}
                                     </h4>

@@ -7,27 +7,29 @@
 {% form_theme form 'trick/_collection.html.twig' %}
 
 {% block body %}
-    <div class="container mt-5">
-        {{ form_start(form) }}
-        <h1>Page de création d'une figure</h1>
-        <div class="jumbotron">
-        <div class="row mt-3 mb-5">
-                <div class="col">
-                    <p>Sélectionnez une catégorie..</p>
-                    {{ form_widget(form.category) }}
-                </div>
-                <div class="col">
-                    <p >Ou créez en une nouvelle !</p><br>
-                    <a href="{{ path('create_category') }}">
-                        <button type="button" class="btn btn-primary">Créer une catégorie</button>
-                    </a>
+    <div class="form-custom">
+        <div class="container">
+            {{ form_start(form) }}
+            <h1>Page de création d'une figure</h1>
+            <div class="jumbotron">
+                <div class="row mt-3 mb-5">
+                    <div class="col">
+                        <p>Sélectionnez une catégorie..</p>
+                        {{ form_widget(form.category) }}
+                    </div>
+                    <div class="col">
+                        <p>Ou créez en une nouvelle !</p><br>
+                        <a href="{{ path('create_category') }}">
+                            <button type="button" class="btn btn-primary">Créer une catégorie</button>
+                        </a>
+                    </div>
                 </div>
             </div>
+
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">Créer la figure</button>
+
+            {{ form_end(form) }}
         </div>
-
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Créer la figure</button>
-
-        {{ form_end(form) }}
     </div>
 {% endblock %}

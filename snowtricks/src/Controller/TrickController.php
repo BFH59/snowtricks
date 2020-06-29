@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,20 +38,19 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-                $coverImage = $form['coverImage']->getData();
-                //manage cover image
-                if ($coverImage) {
-                    $coverImageFileName = $fileUploader->upload($coverImage);
-                    $trick->setCoverImage($coverImageFileName);
-                }
+            $coverImage = $form['coverImage']->getData();
+            //manage cover image
+            if ($coverImage) {
+                $coverImageFileName = $fileUploader->upload($coverImage);
+                $trick->setCoverImage($coverImageFileName);
+            }
             //manage others images uploaded by user
-            foreach($trick->getImages() as $image)
-            {
+            foreach ($trick->getImages() as $image) {
                 $image->setTrick($trick);
                 $image = $imageUploader->uploadImage($image);
                 $manager->persist($image);
             }
-            foreach ($trick->getVideos() as $videos){
+            foreach ($trick->getVideos() as $videos) {
                 $videos->setTrick($trick);
                 $manager->persist($videos);
             }
@@ -87,21 +87,20 @@ class TrickController extends AbstractController
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $coverImage = $form['coverImage']->getData();
             //manage cover image
             if ($coverImage) {
                 $coverImageFileName = $fileUploader->upload($coverImage);
                 $trick->setCoverImage($coverImageFileName);
             }
-            foreach($trick->getImages() as $image)
-            {
+            foreach ($trick->getImages() as $image) {
 
                 $image->setTrick($trick);
                 $image = $imageUploader->uploadImage($image);
                 $manager->persist($image);
             }
-            foreach ($trick->getVideos() as $videos){
+            foreach ($trick->getVideos() as $videos) {
                 $videos->setTrick($trick);
                 $manager->persist($videos);
             }
@@ -115,7 +114,7 @@ class TrickController extends AbstractController
                 "Les modifications de la figure : <strong> {$trick->getTitle()}</strong> ont bien été enregistrées !"
             );
 
-            return $this->redirectToRoute('trick_show',[
+            return $this->redirectToRoute('trick_show', [
                 'slug' => $trick->getSlug()
             ]);
         }
@@ -141,10 +140,10 @@ class TrickController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $author = $this->getUser();
             $comment->setAuthor($author)
-                    ->setTrick($trick);
+                ->setTrick($trick);
             $manager->persist($comment);
             $manager->flush();
 
@@ -153,7 +152,7 @@ class TrickController extends AbstractController
                 "Votre commentaire a bien été enregistré !"
             );
 
-            return $this->redirectToRoute('trick_show',[
+            return $this->redirectToRoute('trick_show', [
                 'slug' => $trick->getSlug()
             ]);
 
@@ -162,5 +161,22 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("trick/{slug}/delete", name="trick_delete")
+     * @IsGranted("ROLE_MEMBER", message="Votre compte doit etre validé pouvoir éditer cette figure")
+     * @param Trick $trick
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse
+     */
+    public function delete(Trick $trick, EntityManagerInterface $manager)
+    {
+        $manager->remove($trick);
+        $manager->flush();
+
+        $this->addFlash('success', "La figure <strong>{$trick->getTitle()}</strong> a bien été supprimée");
+
+        return $this->redirectToRoute('homepage');
     }
 }

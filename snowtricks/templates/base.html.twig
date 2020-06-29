@@ -17,7 +17,9 @@
 </head>
 <body>
 {% include 'partials/header.html.twig' %}
-{% block body %}{% endblock %}
+{% include 'partials/flash.html.twig' %}
+{% block body %}
+{% endblock %}
 {% include 'partials/footer.html.twig' %}
 
 <script src="/js/jquery.min.js"></script>

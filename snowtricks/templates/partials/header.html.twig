@@ -5,7 +5,9 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     {% if app.user and is_granted('ROLE_MEMBER') == false %}
+        <span class="notVerified">
         <div class="alert alert-warning">Votre compte est restreint. Vous devez confirmez votre e-mail.</div>
+            </span>
     {% endif %}
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav ml-auto">
@@ -42,13 +44,3 @@
         </ul>
     </div>
 </nav>
-{% for label, messages in app.flashes %}
-    <div class="container mt-5">
-        {% for message in messages %}
-            <div class="alert alert-{{ label }}">
-                <p>{{ message | raw }}</p>
-            </div>
-        {% endfor %}
-    </div>
-
-{% endfor %}
