@@ -90,7 +90,6 @@ class TrickController extends AbstractController
                 $coverImageFileName = $fileUploader->upload($coverImage);
                 $trick->setCoverImage($coverImageFileName);
             }
-            dump($trick->getImages());
             foreach($trick->getImages() as $image)
             {
 
