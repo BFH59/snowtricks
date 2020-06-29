@@ -178,7 +178,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Les modifications de votre ont bien été enregistrées !"
+                "Les modifications de votre compte ont bien été enregistrées !"
             );
 
             return $this->redirectToRoute('account_profile');
