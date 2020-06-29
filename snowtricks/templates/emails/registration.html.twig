@@ -1,0 +1,11 @@
+<h1>Bienvenue sur SnowTricks {{ name }} !</h1>
+
+<p>
+    Vous vous êtes inscrit avec l'adresse e-mail :
+</p>
+<p><code>{{ email.to[0].address }}</code></p>
+
+<p>
+    <a href="{{ url('homepage') ~ 'account_activation/'~ slug ~'/' ~ token}}">Cliquez sur le lien pour activer votre compte</a>
+
+</p>
