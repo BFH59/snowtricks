@@ -74,7 +74,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit")
-     * @IsGranted("ROLE_MEMBER", message="Votre compte doit etre validé pouvoir éditer cete figure")
+     * @IsGranted("ROLE_MEMBER", message="Votre compte doit etre validé pouvoir éditer cette figure")
      * @param Request $request
      * @param Trick $trick
      * @param EntityManagerInterface $manager

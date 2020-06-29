@@ -35,6 +35,14 @@
                                 <a href="{{ url }}">
                                     <h4 class="card-title">
                                         {{ trick.title }}
+                                        {% if app.user %}
+                                            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}">
+                                                <span class="fa fa-pencil"></span>
+                                            </a>
+                                            <a href="#">
+                                                <span class="fa fa-trash"></span>
+                                            </a>
+                                        {% endif %}
                                     </h4>
                                 </a>
                             </div>

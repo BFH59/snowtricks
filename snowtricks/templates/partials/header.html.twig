@@ -1,9 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <a class="navbar-brand" href="{{ path('homepage') }}">SnowTricks</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
+    {% if app.user and is_granted('ROLE_MEMBER') == false %}
+        <div class="alert alert-warning">Votre compte est restreint. Vous devez confirmez votre e-mail.</div>
+    {% endif %}
     <div class="collapse navbar-collapse" id="navbarColor03">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -14,27 +17,28 @@
             </li>
         </ul>
         <ul class="navbar-nav">
-        {% if app.user %}
-            <li class="nav-itm dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
-                    <img src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ app.user.getAvatarUrl }}" class="avatar avatar-mini" alt="avatar de {{ app.user.fullName }}">{{ app.user.fullName }}
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
-                    <a href="{{ path('trick_create') }}" class="dropdown-item">Créer une figure</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="{{ path('account_profile') }}" class="dropdown-item">Modifier mon compte</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="{{ path('account_logout') }}" class="dropdown-item">Me déconnecter</a>
-                </div>
-            </li>
-        {% else %}
-            <li class="nav-item">
-                <a href="{{ path('account_register') }}" class="nav-link">S'incrire</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ path('account_login') }}" class="nav-link">Se connecter</a>
-            </li>
-        {% endif %}
+            {% if app.user %}
+                <li class="nav-itm dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                        <img src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ app.user.getAvatarUrl }}"
+                             class="avatar avatar-mini" alt="avatar de {{ app.user.fullName }}">{{ app.user.fullName }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink">
+                        <a href="{{ path('trick_create') }}" class="dropdown-item">Créer une figure</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('account_profile') }}" class="dropdown-item">Modifier mon compte</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('account_logout') }}" class="dropdown-item">Me déconnecter</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="{{ path('account_register') }}" class="nav-link">S'incrire</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('account_login') }}" class="nav-link">Se connecter</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
