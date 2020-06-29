@@ -10,6 +10,7 @@ use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ class TrickController extends AbstractController
     /**
      * function that allow trick creation
      * @Route("trick/new", name="trick_create")
+     * @IsGranted("ROLE_MEMBER", message="Votre compte doit etre validé pour créer une figure")
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param ImageUploader $imageUploader
@@ -72,7 +74,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit")
-     * @Security("is_granted('ROLE_USER')", message="Cette annonce ne vous appartient pas. Vous ne pouvez pas la modifier")
+     * @IsGranted("ROLE_MEMBER", message="Votre compte doit etre validé pouvoir éditer cete figure")
      * @param Request $request
      * @param Trick $trick
      * @param EntityManagerInterface $manager

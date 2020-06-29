@@ -51,11 +51,11 @@
         </div>
         <hr>
         {% if is_granted('ROLE_MEMBER') == false %}
-            Vous devez être inscrit et avoir validé votre compte pour poster un commentaire.
+            <div class="alert alert-warning">Vous devez être inscrit et avoir validé votre compte pour poster un commentaire.</div>
         {% else %}
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <button type="submit" class="btn btn-success">Confirmez</button>
+            <button type="submit" class="btn btn-success">Envoyez</button>
             {{ form_end(form) }}
         {% endif %}
         <hr>
