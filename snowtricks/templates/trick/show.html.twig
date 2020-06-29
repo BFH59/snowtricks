@@ -13,7 +13,7 @@
         <div class="row">
             {% for image in trick.images %}
                 <div class="col-md-2 mr-3">
-                   <img src="{{ url('homepage') ~ image.getImageUrl }}" class="trick-image img-fluid"
+                    <img src="{{ url('homepage') ~ image.getImageUrl }}" class="trick-image img-fluid"
                          alt="Image du trick {{ trick.title }}">
                 </div>
             {% endfor %}
@@ -49,5 +49,43 @@
         <div class="jumbotron">
             <p class="text-center mt-auto">{{ trick.content }}</p>
         </div>
+        <hr>
+        {% if is_granted('ROLE_MEMBER') == false %}
+            Vous devez être inscrit et avoir validé votre compte pour poster un commentaire.
+        {% else %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-success">Confirmez</button>
+            {{ form_end(form) }}
+        {% endif %}
+        <hr>
+        {% if trick.comments|length <= 0 %}
+
+            <h2>Aucun commentaire pour le moment</h2>
+        {% else %}
+            <h2>Commentaires laissés</h2>
+        {% endif %}
+        {% for comment in trick.comments|sort|reverse %}
+            {% if comment is not null %}
+                <div class="row jumbotron">
+
+                    <div class="col-md-2">
+                        <i>Le {{ comment.createdAt | date('d-m-Y') }}</i>
+                        <div class="card align-items-center">
+                            <img src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ comment.author.getAvatarUrl }}"
+                                 class="avatar card-img" alt="Avatar de {{ comment.author.fullName }}">
+                            <div class="card-body">
+                                {{ comment.author.fullName }}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-2">
+                        <blockquote>{{ comment.content }}</blockquote>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
     </div>
 {% endblock %}

@@ -51,13 +51,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure mute')
               ->setContent("saisie de la carre frontside de la planche entre les deux pieds avec la main avant")
-              ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+              ->setCoverImage("bouledog.jpeg")
               ->setCategory($grabsCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                     ->setPath('uploads/image')
                   ->setCaption('image' .$j)
                   ->setTrick($trick);
@@ -77,13 +77,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure style week')
             ->setContent("saisie de la carre backside de la planche, entre les deux pieds, avec la main avant")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($grabsCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -103,13 +103,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure indy')
             ->setContent("saisie de la carre frontside de la planche, entre les deux pieds, avec la main arrière")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($grabsCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -129,13 +129,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure nose grab')
             ->setContent("saisie de la partie avant de la planche, avec la main avant")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($grabsCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -155,13 +155,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure tail grab')
             ->setContent("saisie de la partie arrière de la planche, avec la main arrière")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($grabsCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -181,13 +181,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure truck driver')
             ->setContent("saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture)")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($grabsCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -207,13 +207,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure rotation 180')
             ->setContent("un 180 désigne un demi-tour, soit 180 degrés d'angle")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($rotationCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -233,13 +233,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure rotation 360')
             ->setContent("360, trois six pour un tour complet ")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($rotationCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -259,13 +259,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure rotation big foot')
             ->setContent("1080 ou big foot pour trois tours")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($rotationCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -286,13 +286,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure front flip')
             ->setContent("Un flip est une rotation verticale. On distingue les front flips, rotations en avant")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($flipsCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
@@ -313,13 +313,13 @@ class AppFixtures extends Fixture
         $trick = new Trick();
         $trick->setTitle('figure back flip')
             ->setContent("Un flip est une rotation verticale. On distingue les back flips, rotations en arrière")
-            ->setCoverImage("bouledog-5ecbfce838967.jpeg")
+            ->setCoverImage("bouledog.jpeg")
             ->setCategory($flipsCategory);
 
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setName('bouledog-5ecbfce838967.jpeg')
+            $image->setName('bouledog.jpeg')
                 ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);

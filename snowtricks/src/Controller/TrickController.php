@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Image;
+use App\Form\CommentType;
 use App\Service\FileUploader;
 use App\Entity\Trick;
 use App\Form\TrickType;
@@ -126,12 +128,37 @@ class TrickController extends AbstractController
      * function to display single trick
      * @Route("trick/{slug}", name="trick_show")
      * @param Trick $trick
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function show(Trick $trick)
+    public function show(Trick $trick, Request $request, EntityManagerInterface $manager)
     {
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $author = $this->getUser();
+            $comment->setAuthor($author)
+                    ->setTrick($trick);
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre commentaire a bien été enregistré !"
+            );
+
+            return $this->redirectToRoute('trick_show',[
+                'slug' => $trick->getSlug()
+            ]);
+
+        }
         return $this->render('trick/show.html.twig', [
-            'trick' => $trick
+            'trick' => $trick,
+            'form' => $form->createView()
         ]);
     }
 }
