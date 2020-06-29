@@ -20,6 +20,10 @@ class AppFixtures extends Fixture
         $memberRole->setTitle('ROLE_MEMBER');
         $manager->persist($memberRole);
 
+        $userRole = new Role();
+        $userRole->setTitle('ROLE_USER');
+        $manager->persist($userRole);
+
 
         //création des 3 catégories
 
@@ -53,7 +57,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                    ->setPath('uploads/image')
                   ->setCaption('image' .$j)
                   ->setTrick($trick);
 
@@ -78,7 +83,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -103,7 +109,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -128,7 +135,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -153,7 +161,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -178,7 +187,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -203,7 +213,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -228,7 +239,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -253,7 +265,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -279,7 +292,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 
@@ -305,7 +319,8 @@ class AppFixtures extends Fixture
         for($j = 1; $j <= mt_rand(1, 4); $j++ ){
 
             $image = new Image();
-            $image->setUrl('http://placehold.it/300x500')
+            $image->setName('bouledog-5ecbfce838967.jpeg')
+                ->setPath('uploads/image')
                 ->setCaption('image' .$j)
                 ->setTrick($trick);
 

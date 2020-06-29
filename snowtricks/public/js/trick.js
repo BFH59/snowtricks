@@ -1,13 +1,12 @@
 $('#add_image').click(function(){
-    const index = +$('#widgets-counter-images').val();
+    const index = +$('#widgets-counter').val();
 
     const tmpl = $('#trick_images').data('prototype').replace(/__name__/g, index);
 
     $('#trick_images').append(tmpl);
 
-    $('#widgets-counter-images').val(index + 1);
+    $('#widgets-counter').val(index + 1);
     handleDeleteButton();
-
 });
 
 function handleDeleteButton(){
@@ -20,33 +19,33 @@ function handleDeleteButton(){
 
 function updateCounter(){
     const count = $('#trick_images div.form-group').length;
-    $('#widgets-counter-images').val(count);
+    $('#widgets-counter').val(count);
 }
 updateCounter();
 handleDeleteButton();
 
 $('#add_video').click(function(){
-    const index = +$('#widgets-counter-videos').val();
+    const index_video = +$('#widgets-counter-videos').val();
 
-    const tmpl = $('#trick_videos').data('prototype').replace(/__name__/g, index);
+    const tmpl_video = $('#trick_videos').data('prototype').replace(/__name__/g, index_video);
 
-    $('#trick_videos').append(tmpl);
+    $('#trick_videos').append(tmpl_video);
 
-    $('#widgets-counter-videos').val(index + 1);
+    $('#widgets-counter-videos').val(index_video + 1);
     handleVideoDeleteButton();
 });
 
 function handleVideoDeleteButton(){
     $('button[data-action="delete"]').click(function(){
-        const target = this.dataset.target;
-        $(target).remove();
+        const target_video = this.dataset.target;
+        $(target_video).remove();
     });
 }
 
 
 function updateVideoCounter(){
-    const count = $('#trick_videos div.form-group').length;
-    $('#widgets-counter-videos').val(count);
+    const count_video = $('#trick_videos div.form-group').length;
+    $('#widgets-counter-videos').val(count_video);
 }
 updateVideoCounter();
 handleVideoDeleteButton();

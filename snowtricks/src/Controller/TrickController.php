@@ -92,6 +92,7 @@ class TrickController extends AbstractController
             }
             foreach($trick->getImages() as $image)
             {
+
                 $image->setTrick($trick);
                 $image = $imageUploader->uploadImage($image);
                 $manager->persist($image);
