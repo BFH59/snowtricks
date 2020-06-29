@@ -3,7 +3,8 @@
 {% block title %}Créez vous un compte !{% endblock %}
 
 {%  block body %}
-    <div class="container mt-5">
+    <div class="form-custom">
+    <div class="container">
         <h1>Créez vous un compte</h1>
 
         {{ form_start(form) }}
@@ -13,5 +14,6 @@
         <button type="submit" class="btn btn-primary">Créer votre compte</button>
 
         {{ form_end(form) }}
+    </div>
     </div>
 {% endblock %}

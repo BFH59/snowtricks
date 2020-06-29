@@ -111,3 +111,20 @@ div.trick-title {
     max-width: 24px;
     max-height: 24px;
 }
+
+.notVerified {
+    top:1em;
+    z-index: 999;
+}
+
+.navbar{
+    z-index: 99; !important;
+}
+
+.form-custom{
+    margin-top:5em;
+}
+
+.flash-msg{
+    margin-top:5em;
+}

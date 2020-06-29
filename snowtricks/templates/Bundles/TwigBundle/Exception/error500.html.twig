@@ -3,14 +3,15 @@
 {% block title %}Une erreur s'est produites{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1 class="mt-5">Oops ! Une erreur s'est produite !</h1>
-        <p>Etes-vous certain de savoir ce que vous faisiez? :D</p>
+    <div class="flash-msg">
+        <div class="container">
+            <h1>Oops ! Une erreur s'est produite !</h1>
+            <p>Etes-vous certain de savoir ce que vous faisiez? :D</p>
 
-        <a href="{{ path('homepage') }}" class="btn btn-primary">Retourner à l'accueil !</a>
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-primary">Revenir en arrière</a>
 
+        </div>
     </div>
-
 
 
 {% endblock %}
