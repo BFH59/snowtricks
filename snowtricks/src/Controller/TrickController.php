@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -172,6 +173,17 @@ class TrickController extends AbstractController
      */
     public function delete(Trick $trick, EntityManagerInterface $manager)
     {
+        $fileSystem = new Filesystem();
+
+        if($trick->getCoverImage() != 'bouledog.jpeg'){
+            $fileSystem->remove('uploads/image/'.$trick->getCoverImage());
+        }
+        foreach ($trick->getImages() as $image){
+            if($image->getName() != 'bouledog.jpeg') {
+                $fileSystem->remove($image->getPath() . '/' . $image->getName());
+            }
+        }
+
         $manager->remove($trick);
         $manager->flush();
 
