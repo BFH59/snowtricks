@@ -64,9 +64,7 @@ class TrickController extends AbstractController
                 "Votre figure <strong> {$trick->getTitle()}</strong> a bien été enregistrée !"
             );
 
-            return $this->redirectToRoute('trick_show', [
-                'slug' => $trick->getSlug()
-            ]);
+            return $this->redirectToRoute('homepage');
         }
         return $this->render('trick/new.html.twig', [
             'form' => $form->createView()

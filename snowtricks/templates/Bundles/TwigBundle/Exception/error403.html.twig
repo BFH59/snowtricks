@@ -9,7 +9,7 @@
             <div class="alert alert-danger">
                 <p>Vous n'avez pas les droits nécessaires pour accéder à cette ressource !</p>
             </div>
-            <a href="{{ path('homepage') }}" class="btn btn-primary">Retourner à l'accueil !</a>
+            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-primary">Revenir en arrière</a>
 
         </div>
     </div>
