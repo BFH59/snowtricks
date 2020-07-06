@@ -1,11 +1,11 @@
-$('#add_image').click(function(){
-    const index = +$('#widgets-counter').val();
+$("#add_image").click(function(){
+    const index = +$("#widgets-counter").val();
 
-    const tmpl = $('#trick_images').data('prototype').replace(/__name__/g, index);
+    const tmpl = $("#trick_images").data("prototype").replace(/__name__/g, index);
 
-    $('#trick_images').append(tmpl);
+    $("#trick_images").append(tmpl);
 
-    $('#widgets-counter').val(index + 1);
+    $("#widgets-counter").val(index + 1);
     handleDeleteButton();
 });
 
@@ -18,34 +18,34 @@ function handleDeleteButton(){
 
 
 function updateCounter(){
-    const count = $('#trick_images div.form-group').length;
-    $('#widgets-counter').val(count);
+    const count = $("#trick_images div.form-group").length;
+    $("#widgets-counter").val(count);
 }
 updateCounter();
 handleDeleteButton();
 
-$('#add_video').click(function(){
-    const index_video = +$('#widgets-counter-videos').val();
+$("#add_video").click(function(){
+    const indexVideo = +$("#widgets-counter-videos").val();
 
-    const tmpl_video = $('#trick_videos').data('prototype').replace(/__name__/g, index_video);
+    const tmplVideo = $("#trick_videos").data("prototype").replace(/__name__/g, indexVideo);
 
-    $('#trick_videos').append(tmpl_video);
+    $("#trick_videos").append(tmplVideo);
 
-    $('#widgets-counter-videos').val(index_video + 1);
+    $("#widgets-counter-videos").val(indexVideo + 1);
     handleVideoDeleteButton();
 });
 
 function handleVideoDeleteButton(){
     $('button[data-action="delete"]').click(function(){
-        const target_video = this.dataset.target;
-        $(target_video).remove();
+        const targetVideo = this.dataset.target;
+        $(targetVideo).remove();
     });
 }
 
 
 function updateVideoCounter(){
-    const count_video = $('#trick_videos div.form-group').length;
-    $('#widgets-counter-videos').val(count_video);
+    const countVideo = $("#trick_videos div.form-group").length;
+    $("#widgets-counter-videos").val(countVideo);
 }
 updateVideoCounter();
 handleVideoDeleteButton();
@@ -54,7 +54,7 @@ handleVideoDeleteButton();
     bsCustomFileInput.init()
 })*/
 
-$(document).on('change', '.custom-file-input', function () {
-    let fileName = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
-    $(this).parent('.custom-file').find('.custom-file-label').text(fileName);
+$(document).on("change", ".custom-file-input", function () {
+    let fileName = $(this).val().replace(/\\/g, "/").replace(/.*\//, "");
+    $(this).parent(".custom-file").find(".custom-file-label").text(fileName);
 });
