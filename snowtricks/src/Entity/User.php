@@ -96,14 +96,14 @@ class User implements UserInterface
     /**
      * Permet de générer le slug
      *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
+     * @ORM\PrePersist()
+     *
      */
     public function initializeSlug()
     {
         if(empty($this->slug)){
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->firstName.''.$this->lastName);
+            $this->slug = $slugify->slugify($this->firstName.''.$this->lastName.'-'.(strlen($this->email)));
         }
     }
 
