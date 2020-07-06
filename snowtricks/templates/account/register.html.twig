@@ -2,18 +2,18 @@
 
 {% block title %}Créez vous un compte !{% endblock %}
 
-{%  block body %}
+{% block body %}
     <div class="form-custom">
-    <div class="container">
-        <h1>Créez vous un compte</h1>
+        <div class="container">
+            <h1>Créez vous un compte</h1>
 
-        {{ form_start(form) }}
+            {{ form_start(form) }}
 
-        {{ form_widget(form) }}
+            {{ form_widget(form) }}
 
-        <button type="submit" class="btn btn-primary">Créer votre compte</button>
+            <button type="submit" class="btn btn-primary">Créer votre compte</button>
 
-        {{ form_end(form) }}
-    </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
