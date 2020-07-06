@@ -9,11 +9,36 @@
 
             {{ form_start(form) }}
 
+            {% if app.user and is_granted('ROLE_MEMBER') == false %}
+                <span class="alert-warning">
+                    Votre e-mail actuel doit avoir été validé pour y avoir accès et le modifier : <span class="badge-warning">{{ app.user.email }}</span>
+                </span>
+            {% endif %}
             {{ form_widget(form) }}
-
             <button type="submit" class="btn btn-primary">Modifier mon compte</button>
 
             {{ form_end(form) }}
+
+            {% if app.user and is_granted('ROLE_MEMBER') == false %}
+                <hr>
+                <div class="container mt-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-10">
+                            <div class="text-warning">
+                                Votre adresse e-mail n'a pas encore été vérifiée. Demandez un nouvel e-mail de
+                                confirmation
+                                !
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="btn btn-outline-warning">
+                                <a href="{{ path('account_confirm_email') }}" class="nav-link">Renvoyez</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

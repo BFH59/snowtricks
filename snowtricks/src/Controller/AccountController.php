@@ -106,6 +106,28 @@ class AccountController extends AbstractController
     }
 
     /**
+     * @Route("account_confirm_email", name="account_confirm_email")
+     * @param MailerInterface $mailer
+     * @return RedirectResponse
+     */
+    public function sendBackConfirmationMail(MailerInterface $mailer)
+    {
+        $user = $this->getUser();
+        $userMail = $user->getEmail();
+        $name = $user->getFirstName();
+        $slug = $user->getSlug();
+        $token = $user->getToken();
+
+        if ($user) {
+            $this->sendEmailAccountConfirmation($mailer, $userMail, $name, $slug, $token);
+            $this->addFlash('success', "L'email de validation a été renvoyé sur votre adresse e-mail !");
+            return $this->redirectToRoute('account_profile');
+        } else {
+            $this->addFlash('danger', 'Une erreur est survenue. Veuillez recommencer.');
+        }
+    }
+
+    /**
      * @Route("account_activation/{slug}/{token}", name="account_activation")
      *
      * @param UserRepository $repo
@@ -159,12 +181,19 @@ class AccountController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param FileUploader $fileUploader
+     * @param RoleRepository $roleRepository
+     * @param MailerInterface $mailer
+     * @param UserRepository $userRepository
      * @return Response
      */
-    public function profile(Request $request, EntityManagerInterface $manager, FileUploader $fileUploader)
+    public function profile(Request $request, EntityManagerInterface $manager, FileUploader $fileUploader, RoleRepository $roleRepository, MailerInterface $mailer, UserRepository $userRepository)
     {
         $user = $this->getUser();
+        $currentMail = $user->getEmail();
         $form = $this->createForm(AccountType::class, $user);
+        if (!in_array('ROLE_MEMBER', $user->getRoles())) {
+            $form->remove('email');
+        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -173,6 +202,12 @@ class AccountController extends AbstractController
                 $avatarFileName = $fileUploader->upload($avatar);
                 $user->setAvatar($avatarFileName);
             }
+            if (isset($form['email'])) {
+                if ($form['email']->getData() != $currentMail) {
+                    $this->updateEmail($this->getUser(), $manager, $roleRepository, $userRepository, $mailer);
+                }
+            }
+
             $manager->persist($user);
             $manager->flush();
 
@@ -204,6 +239,19 @@ class AccountController extends AbstractController
             ]);
 
         $mailer->send($email);
+
+    }
+
+    private function updateEmail($user, $manager, $roleRepository, $userRepository, $mailer)
+    {
+        $roleMember = $roleRepository->findOneByRoleType('ROLE_MEMBER');
+        $user = $userRepository->find($user->getId());
+        $roleMember->removeUser($user);
+        $manager->persist($roleMember);
+        $token = $this->generateToken($user->getEmail());
+        $user->setToken($token);
+        $manager->persist($user);
+        $this->sendEmailAccountConfirmation($mailer, $user->getEmail(), $user->getFirstName(), $user->getSlug(), $token);
 
     }
 
