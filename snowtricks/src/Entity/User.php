@@ -95,9 +95,7 @@ class User implements UserInterface
 
     /**
      * Permet de générer le slug
-     *
      * @ORM\PrePersist()
-     *
      */
     public function initializeSlug()
     {
