@@ -1,0 +1,11 @@
+<h1>Bonjour {{ name }} !</h1>
+
+<p>
+    Vous avez demandé à recevoir de nouveau votre lien de confirmation pour l'adresse e-mail :
+</p>
+<p><code>{{ email.to[0].address }}</code></p>
+
+<p>
+    <a href="{{ url('homepage') ~ 'account_activation/'~ slug ~'/' ~ token}}">Cliquez sur le lien pour activer votre compte</a>
+
+</p>

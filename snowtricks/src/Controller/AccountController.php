@@ -95,7 +95,7 @@ class AccountController extends AbstractController
                 "Votre compte a bien été créé ! Vous allez recevoir un e-mail avec un lien pour valider votre compte !"
             );
             $slug = $user->getSlug();
-            $this->sendEmailAccountConfirmation($mailer, $userMail, $name, $slug, $token);
+            $this->sendEmailAccountConfirmation($mailer, $userMail, $name, $slug, $token, $subject = "Bienvenue sur SnowTricks - confirmez votre adresse mail", $template = 'emails/registration.html.twig');
 
             return $this->redirectToRoute('account_login');
         }
@@ -119,7 +119,7 @@ class AccountController extends AbstractController
         $token = $user->getToken();
 
         if ($user) {
-            $this->sendEmailAccountConfirmation($mailer, $userMail, $name, $slug, $token);
+            $this->sendEmailAccountConfirmation($mailer, $userMail, $name, $slug, $token, $subject="Snowtricks - Confirmez votre adresse e-mail", $template='emails/confirmback.html.twig');
             $this->addFlash('success', "L'email de validation a été renvoyé sur votre adresse e-mail !");
             return $this->redirectToRoute('account_profile');
         } else {
@@ -224,13 +224,13 @@ class AccountController extends AbstractController
         ]);
     }
 
-    private function sendEmailAccountConfirmation(MailerInterface $mailer, $userMail, $name, $slug, $token)
+    private function sendEmailAccountConfirmation(MailerInterface $mailer, $userMail, $name, $slug, $token, $subject, $template)
     {
         $email = (new TemplatedEmail())
             ->from('juli3n.t3st.d3v@gmail.com')
             ->to($userMail)
-            ->subject('Bienvenue sur SnowTricks - confirmez votre adresse mail')
-            ->htmlTemplate('emails/registration.html.twig')
+            ->subject($subject)
+            ->htmlTemplate($template)
             ->context([
                 'name' => $name,
                 'token' => $token,
@@ -251,7 +251,7 @@ class AccountController extends AbstractController
         $token = $this->generateToken($user->getEmail());
         $user->setToken($token);
         $manager->persist($user);
-        $this->sendEmailAccountConfirmation($mailer, $user->getEmail(), $user->getFirstName(), $user->getSlug(), $token);
+        $this->sendEmailAccountConfirmation($mailer, $user->getEmail(), $user->getFirstName(), $user->getSlug(), $token, $subject ="Snowtricks - confirmez votre nouvelle adresse e-mail", $template='emails/updatemail.html.twig');
 
     }
 

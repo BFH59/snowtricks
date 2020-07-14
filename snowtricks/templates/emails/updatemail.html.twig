@@ -1,0 +1,11 @@
+<h1>Bonjour {{ name }} !</h1>
+
+<p>
+    Vous avez demandé à modifier votre adresse e-mail par celle-ci :
+</p>
+<p><code>{{ email.to[0].address }}</code></p>
+
+<p>
+    <a href="{{ url('homepage') ~ 'account_activation/'~ slug ~'/' ~ token}}">Cliquez sur le lien pour activer votre nouvel e-mail</a>
+
+</p>
