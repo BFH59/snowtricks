@@ -1,0 +1,21 @@
+{% for comment in trick.comments|sort|reverse|slice(start, start + 3) %}
+    {% if comment is not null %}
+        <div class="row jumbotron">
+
+            <div class="col-md-2">
+                <i>Le {{ comment.createdAt | date('d-m-Y') }}</i>
+                <div class="card align-items-center">
+                    <img src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ comment.author.getAvatarUrl }}"
+                         class="avatar card-img" alt="Avatar de {{ comment.author.fullName }}">
+                    <div class="card-body">
+                        {{ comment.author.fullName }}
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6 offset-2">
+                <blockquote>{{ comment.content }}</blockquote>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

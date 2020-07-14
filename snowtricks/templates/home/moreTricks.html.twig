@@ -1,0 +1,31 @@
+{% for trick in tricks %}
+    {% set url = path('trick_show', {'slug': trick.slug}) %}
+
+
+    <div class="col-md-4">
+        <div class="card bg-light mb-3">
+            <div class="card-header text-center">
+                Trick : <strong>{{ trick.title }}</strong> <br>
+            </div>
+            <a href="{{ url }}">
+                <img src="{{ url('homepage') ~ trick.getCoverImageUrl}}" alt="Image du trick {{ trick.title }}"
+                     class="card-img">
+            </a>
+            <div class="card-body">
+                <a href="{{ url }}">
+                    <h4 class="card-title">
+                        {{ trick.title }}
+                        {% if app.user %}
+                            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}">
+                                <span class="fa fa-pencil"></span>
+                            </a>
+                            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes vous sur de vouloir supprimer la figure : {{ trick.title }}')">
+                                <span class="fa fa-trash text-danger"></span>
+                            </a>
+                        {% endif %}
+                    </h4>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endfor %}

@@ -18,7 +18,7 @@ class HomeController extends AbstractController
      */
     public function home(TrickRepository $repo)
     {
-        $tricks = $repo->findAll();
+        $tricks = $repo->findBy([], ['createdAt' => 'ASC'], 5, 0);
 
         return $this->render(
             'home.html.twig',
@@ -26,5 +26,19 @@ class HomeController extends AbstractController
                 'tricks' => $tricks,
             ]
         );
+    }
+
+    /**
+     * @Route("/{start}", name="moreTricks", requirements={"start": "\d+"})
+     * @param TrickRepository $repo
+     * @param int $start
+     * @return Response
+     */
+    public function moreTricks(TrickRepository $repo, $start = 5){
+        $tricks = $repo->findBy([], ['createdAt' => 'ASC'], 5, $start);
+
+        return $this->render('home/moreTricks.html.twig', [
+            'tricks' => $tricks
+        ]);
     }
 }
