@@ -51,7 +51,9 @@
         </div>
         <hr>
         {% if is_granted('ROLE_MEMBER') == false %}
-            <div class="alert alert-warning">Vous devez être inscrit et avoir validé votre compte pour poster un commentaire.</div>
+            <div class="alert alert-warning">Vous devez être inscrit et avoir validé votre compte pour poster un
+                commentaire.
+            </div>
         {% else %}
             {{ form_start(form) }}
             {{ form_widget(form) }}
@@ -65,27 +67,58 @@
         {% else %}
             <h2>Commentaires laissés</h2>
         {% endif %}
-        {% for comment in trick.comments|sort|reverse %}
-            {% if comment is not null %}
-                <div class="row jumbotron">
+        <div id="listComments">
+            {% for comment in trick.comments|sort|reverse|slice(0,3) %}
+                {% if comment is not null %}
 
-                    <div class="col-md-2">
-                        <i>Le {{ comment.createdAt | date('d-m-Y') }}</i>
-                        <div class="card align-items-center">
-                            <img src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ comment.author.getAvatarUrl }}"
-                                 class="avatar card-img" alt="Avatar de {{ comment.author.fullName }}">
-                            <div class="card-body">
-                                {{ comment.author.fullName }}
+                    <div class="row jumbotron">
+
+                        <div class="col-md-2">
+                            <i>Le {{ comment.createdAt | date('d-m-Y') }}</i>
+                            <div class="card align-items-center">
+                                <img src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ comment.author.getAvatarUrl }}"
+                                     class="avatar card-img" alt="Avatar de {{ comment.author.fullName }}">
+                                <div class="card-body">
+                                    {{ comment.author.fullName }}
+                                </div>
+
                             </div>
-
+                        </div>
+                        <div class="col-md-6 offset-2">
+                            <blockquote>{{ comment.content }}</blockquote>
                         </div>
                     </div>
-                    <div class="col-md-6 offset-2">
-                        <blockquote>{{ comment.content }}</blockquote>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
 
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
+    {% if trick.comments|length >= 3 %}
+        <div class="row text-center">
+            <button id="moreComments" class="btn btn-success col-md-6 col-8 mx-auto">Plus de commentaires</button>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    <script>
+        click = 0;
+
+        function moreComments(event) {
+            event.preventDefault();
+            click++;
+            var start = 3 * click;
+            const url = "{{ path('moreComments', {'slug': trick.slug}) }}" + '/' + start;
+            axios.get(url).then(function (response) {
+                $("#listComments").append(response.data);
+            }).catch(function (error) {
+                if (response.status === 403) {
+                    window.alert("Accès interdit !");
+                } else if (response.status === 404) {
+                    window.alert("Pas de commentaire !");
+                }
+            });
+        }
+
+        document.getElementById("moreComments").addEventListener("click", moreComments);
+    </script>
 {% endblock %}

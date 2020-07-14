@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Image;
 use App\Form\CommentType;
+use App\Repository\TrickRepository;
 use App\Service\FileUploader;
 use App\Entity\Trick;
 use App\Form\TrickType;
@@ -159,6 +160,20 @@ class TrickController extends AbstractController
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/trick/{slug}/{start}", name="moreComments", requirements={"start": "\d+"})
+     * @param Trick $trick
+     * @param int $start
+     * @return Response
+     */
+    public function moreComments(Trick $trick, $start = 3)
+    {
+        return $this->render('trick/moreComments.html.twig', [
+            'trick' => $trick,
+            'start' => $start
         ]);
     }
 
