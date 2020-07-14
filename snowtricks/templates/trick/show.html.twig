@@ -5,6 +5,14 @@
 {% block body %}
     <div class="trick-title mt-5 img-fluid"
          style="background-image: url({{ url('homepage') ~ trick.getCoverImageUrl }})">
+        {% if app.user %}
+            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}">
+                <span class="fa fa-pencil d-flex flex-row-reverse"></span>
+            </a>
+            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes vous sur de vouloir supprimer la figure : {{ trick.title }}')">
+                <span class="fa fa-trash text-danger d-flex flex-row-reverse"></span>
+            </a>
+        {% endif %}
         <div class="container" id="tricks">
             <h1>{{ trick.title }}</h1>
         </div>
