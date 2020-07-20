@@ -52,11 +52,11 @@
         <hr>
         <div class="row">
 
-            <span class="badge badge-pill badge-primary mr-auto mb-2">Catégorie: {{ trick.category.title }}</span>
+            <span class="badge badge-pill badge-primary mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">Catégorie: {{ trick.category.title }}</span>
 
-            <span class="badge badge-pill badge-success ml-auto mb-2">Créé le: {{ trick.createdat | date('d-m-Y') }}</span>
+            <span class="badge badge-pill badge-success mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">Créé le: {{ trick.createdat | date('d-m-Y') }}</span>
             {% if trick.updatedAt is not null %}
-                <span class="badge badge-pill badge-info ml-auto mb-2">Modifié le : {{ trick.updatedat | date('d-m-Y') }}</span>
+                <span class="badge badge-pill badge-info mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">Modifié le : {{ trick.updatedat | date('d-m-Y') }}</span>
             {% endif %}
         </div>
         <div class="jumbotron">
@@ -125,24 +125,6 @@
                         <div class="mx-auto col-sm-12">
                             <img src="{{ url('homepage') ~ image.getImageUrl }}" class="trick-image img-fluid"
                                  alt="Image du trick {{ trick.title }}">
-                        </div>
-                    {% endfor %}
-                    {% for video in trick.videos %}
-                        <div class="mx-auto col-sm-12 mt-2">
-
-                            <iframe class="myIframe" width="250" height="150" frameborder="0" allowfullscreen></iframe>
-                            <script type="text/javascript">
-
-                                var url = "{{ video.url }}";
-                                var id = url.split("?v=")[1];
-
-                                var embedlink = "http://www.youtube.com/embed/" + id;
-
-                                var ytube1 = document.getElementsByClassName("myIframe");
-
-                                ytube1[{{ loop.index0 }}].src = embedlink;
-                            </script>
-
                         </div>
                     {% endfor %}
                 </div>
