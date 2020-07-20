@@ -54,6 +54,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="6", minMessage="Votre mot de passe doit faire au minimum 6 caractères !")
      */
     private $hash;
 

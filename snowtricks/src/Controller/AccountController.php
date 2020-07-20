@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\PasswordUpdate;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Form\PasswordUpdateType;
 use App\Form\RegistrationType;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
@@ -18,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -222,6 +225,48 @@ class AccountController extends AbstractController
         return $this->render('account/edit.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("account/forgot-password", name="forgot_password")
+     */
+    public function forgotPassword()
+    {
+        return $this->render('forgotPassword.html.twig');
+    }
+
+    /**
+     * @Route("/account/update-password", name="update_password")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager){
+
+        $passwordUpdate = new PasswordUpdate();
+        $user = $this->getUser();
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $newPassword = $passwordUpdate->getNewPassword();
+            $hash = $encoder->encodePassword($user, $newPassword);
+            $user->setHash($hash);
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('success', "Votre nouveau mot de passe a bien été enregistré !");
+
+            return $this->redirectToRoute('account_login');
+        }
+
+        return $this->render('account/password.html.twig',
+            [
+                'form' => $form->createView()
+            ]);
     }
 
     private function sendEmailAccountConfirmation(MailerInterface $mailer, $userMail, $name, $slug, $token, $subject, $template)
