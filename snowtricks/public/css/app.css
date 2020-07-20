@@ -128,3 +128,16 @@ div.trick-title {
 .flash-msg{
     margin-top:5em;
 }
+
+#showMedia {
+    display:none;
+}
+
+@media (max-width: 575px) {
+    #media {
+        display:none;
+    }
+    #showMedia {
+        display:block;
+    }
+}
