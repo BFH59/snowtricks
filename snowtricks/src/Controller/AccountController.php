@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\ForgotPassword;
 use App\Entity\PasswordUpdate;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Form\ForgotPasswordType;
 use App\Form\PasswordUpdateType;
 use App\Form\RegistrationType;
 use App\Repository\RoleRepository;
@@ -122,7 +124,7 @@ class AccountController extends AbstractController
         $token = $user->getToken();
 
         if ($user) {
-            $this->sendEmailAccountConfirmation($mailer, $userMail, $name, $slug, $token, $subject="Snowtricks - Confirmez votre adresse e-mail", $template='emails/confirmback.html.twig');
+            $this->sendEmailAccountConfirmation($mailer, $userMail, $name, $slug, $token, $subject = "Snowtricks - Confirmez votre adresse e-mail", $template = 'emails/confirmback.html.twig');
             $this->addFlash('success', "L'email de validation a été renvoyé sur votre adresse e-mail !");
             return $this->redirectToRoute('account_profile');
         } else {
@@ -229,44 +231,91 @@ class AccountController extends AbstractController
 
     /**
      * @Route("account/forgot-password", name="forgot_password")
-     */
-    public function forgotPassword()
-    {
-        return $this->render('forgotPassword.html.twig');
-    }
-
-    /**
-     * @Route("/account/update-password", name="update_password")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $encoder
+     * @param UserRepository $userRepository
      * @param EntityManagerInterface $manager
+     * @param MailerInterface $mailer
      * @return Response
      */
-    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager){
-
-        $passwordUpdate = new PasswordUpdate();
-        $user = $this->getUser();
-        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+    public function forgotPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $manager, MailerInterface $mailer)
+    {
+        $email = new ForgotPassword();
+        $form = $this->createForm(ForgotPasswordType::class, $email);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            $newPassword = $passwordUpdate->getNewPassword();
-            $hash = $encoder->encodePassword($user, $newPassword);
-            $user->setHash($hash);
-
-            $manager->persist($user);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user['email'] = $form['email']->getData();
+            $user = $userRepository->findOneBy($user);
+            if ($user) {
+                $token = $this->generateToken($user->getEmail());
+                $user->setToken($token);
+                $this->sendEmailAccountConfirmation($mailer, $user->getEmail(), $user->getFirstName(), $user->getSlug(), $user->getToken(), $subject = "Modification de votre mot de passe", $template = 'emails/updatePassword.html.twig');
+                $manager->persist($user);
+            }
             $manager->flush();
-
-            $this->addFlash('success', "Votre nouveau mot de passe a bien été enregistré !");
-
-            return $this->redirectToRoute('account_login');
+            $this->addFlash(
+                'success',
+                "Votre demande de réinitialisation de mot de passe a été prise en compte."
+            );
+            return $this->redirectToRoute('homepage');
         }
+        return $this->render('account/forgotPassword.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 
-        return $this->render('account/password.html.twig',
-            [
-                'form' => $form->createView()
-            ]);
+    /**
+     * @Route("/account/update-password/{slug}/{token}", name="update_password")
+     * @param UserRepository $repo
+     * @param $slug
+     * @param $token
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @param EntityManagerInterface $manager
+     * @param RoleRepository $roleRepository
+     * @return Response
+     */
+    public function updatePassword(UserRepository $repo, $slug, $token, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager, RoleRepository $roleRepository)
+    {
+
+        $passwordUpdate = new PasswordUpdate();
+        $userRole = $roleRepository->findOneByRoleType('ROLE_MEMBER');
+        $user = $repo->findOneBySlug($slug);
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+        $form->handleRequest($request);
+
+        if ($token == null || $token != $user->getToken()) {
+            $this->addFlash(
+                'danger',
+                "Une erreur est survenue et/ou le lien n'est pas valide !"
+            );
+            return $this->redirectToRoute('forgot_password');
+        }
+        if ($token != null && $token === $user->getToken()) {
+
+            $userRole->addUser($user);
+            $manager->persist($userRole);
+            $user->setToken(null);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $newPassword = $passwordUpdate->getNewPassword();
+                $hash = $encoder->encodePassword($user, $newPassword);
+                $user->setHash($hash);
+
+                $manager->persist($user);
+                $manager->flush();
+
+
+                $this->addFlash('success', "Votre nouveau mot de passe a bien été enregistré !");
+
+                return $this->redirectToRoute('account_login');
+            }
+            return $this->render('account/password.html.twig',
+                [
+                    'form' => $form->createView()
+                ]);
+        }
     }
 
     private function sendEmailAccountConfirmation(MailerInterface $mailer, $userMail, $name, $slug, $token, $subject, $template)
@@ -296,7 +345,7 @@ class AccountController extends AbstractController
         $token = $this->generateToken($user->getEmail());
         $user->setToken($token);
         $manager->persist($user);
-        $this->sendEmailAccountConfirmation($mailer, $user->getEmail(), $user->getFirstName(), $user->getSlug(), $token, $subject ="Snowtricks - confirmez votre nouvelle adresse e-mail", $template='emails/updatemail.html.twig');
+        $this->sendEmailAccountConfirmation($mailer, $user->getEmail(), $user->getFirstName(), $user->getSlug(), $token, $subject = "Snowtricks - confirmez votre nouvelle adresse e-mail", $template = 'emails/updatemail.html.twig');
 
     }
 
