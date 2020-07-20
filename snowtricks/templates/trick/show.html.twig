@@ -18,15 +18,15 @@
         </div>
     </div>
     <div class="container mt-3">
-        <div class="row">
+        <div class="row" id="media">
             {% for image in trick.images %}
-                <div class="col-md-2 mr-3">
+                <div class="mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark mb-2">
                     <img src="{{ url('homepage') ~ image.getImageUrl }}" class="trick-image img-fluid"
                          alt="Image du trick {{ trick.title }}">
                 </div>
             {% endfor %}
             {% for video in trick.videos %}
-                <div class="col-md-2 ml-auto">
+                <div class="mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">
 
                     <iframe class="myIframe" width="250" height="150" frameborder="0" allowfullscreen></iframe>
                     <script type="text/javascript">
@@ -44,6 +44,11 @@
                 </div>
             {% endfor %}
         </div>
+
+            <button type="button" id="showMedia" class="btn btn-primary" data-toggle="modal" data-target="#mediaModal">
+                Voir les médias
+            </button>
+
         <hr>
         <div class="row">
 
@@ -106,6 +111,47 @@
             <button id="moreComments" class="btn btn-success col-md-6 col-8 mx-auto">Plus de commentaires</button>
         </div>
     {% endif %}
+    <div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="{{trick.title}}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Média du trick {{ trick.title }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for image in trick.images %}
+                        <div class="mx-auto col-sm-12">
+                            <img src="{{ url('homepage') ~ image.getImageUrl }}" class="trick-image img-fluid"
+                                 alt="Image du trick {{ trick.title }}">
+                        </div>
+                    {% endfor %}
+                    {% for video in trick.videos %}
+                        <div class="mx-auto col-sm-12 mt-2">
+
+                            <iframe class="myIframe" width="250" height="150" frameborder="0" allowfullscreen></iframe>
+                            <script type="text/javascript">
+
+                                var url = "{{ video.url }}";
+                                var id = url.split("?v=")[1];
+
+                                var embedlink = "http://www.youtube.com/embed/" + id;
+
+                                var ytube1 = document.getElementsByClassName("myIframe");
+
+                                ytube1[{{ loop.index0 }}].src = embedlink;
+                            </script>
+
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script>
