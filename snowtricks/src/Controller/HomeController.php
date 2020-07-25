@@ -18,7 +18,7 @@ class HomeController extends AbstractController
      */
     public function home(TrickRepository $repo)
     {
-        $tricks = $repo->findBy([], ['createdAt' => 'ASC'], 5, 0);
+        $tricks = $repo->findBy([], ['createdAt' => 'ASC'], 10, 0);
 
         return $this->render(
             'home.html.twig',
@@ -34,7 +34,7 @@ class HomeController extends AbstractController
      * @param int $start
      * @return Response
      */
-    public function moreTricks(TrickRepository $repo, $start = 5){
+    public function moreTricks(TrickRepository $repo, $start = 10){
         $tricks = $repo->findBy([], ['createdAt' => 'ASC'], 5, $start);
 
         return $this->render('home/moreTricks.html.twig', [

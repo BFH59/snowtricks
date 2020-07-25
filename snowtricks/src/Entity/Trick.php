@@ -22,7 +22,7 @@ class Trick
 {
 
     const IMG_DIR = 'uploads/image/';
-    const DEFAULT_COVER = 'bouledog.jpeg';
+    const DEFAULT_COVER = 'trick.jpeg';
 
     public function getCoverImageUrl()
     {
