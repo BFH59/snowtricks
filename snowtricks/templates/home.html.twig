@@ -68,7 +68,7 @@
         function moreTricks(event) {
             event.preventDefault();
             click++;
-            var start = 5 * click;
+            var start = 10 * click;
             const url = "{{ path('moreTricks') }}" + start;
             axios.get(url).then(function(response) {
                 $("#listTricks").append(response.data);
