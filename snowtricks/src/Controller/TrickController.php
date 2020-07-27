@@ -188,11 +188,11 @@ class TrickController extends AbstractController
     {
         $fileSystem = new Filesystem();
 
-        if($trick->getCoverImage() != 'bouledog.jpeg'){
+        if($trick->getCoverImage() != 'trick.jpeg'){
             $fileSystem->remove('uploads/image/'.$trick->getCoverImage());
         }
         foreach ($trick->getImages() as $image){
-            if($image->getName() != 'bouledog.jpeg') {
+            if($image->getName() != 'trick.jpeg') {
                 $fileSystem->remove($image->getPath() . '/' . $image->getName());
             }
         }
