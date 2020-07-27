@@ -1,4 +1,7 @@
 # snowtricks
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8677dc68a2db4a5dad3baaa3c38aaddd)](https://app.codacy.com/manual/BFH59/snowtricks?utm_source=github.com&utm_medium=referral&utm_content=BFH59/snowtricks&utm_campaign=Badge_Grade_Dashboard)
+
 Projet 6 openclassrooms
 ========================================================================================================================
 Description du besoin
