@@ -1,7 +1,6 @@
 # snowtricks
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c5eee13eb04a4cfb879e2b6adf124876)](https://app.codacy.com/manual/BFH59/snowtricks?utm_source=github.com&utm_medium=referral&utm_content=BFH59/snowtricks&utm_campaign=Badge_Grade_Dashboard)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8677dc68a2db4a5dad3baaa3c38aaddd)](https://app.codacy.com/manual/BFH59/snowtricks?utm_source=github.com&utm_medium=referral&utm_content=BFH59/snowtricks&utm_campaign=Badge_Grade_Dashboard)
 
 Projet 6 openclassrooms
 ========================================================================================================================
