@@ -13,3 +13,24 @@ la page d’accueil où figurera la liste des figures ;
 la page de création d'une nouvelle figure ;
 la page de modification d'une figure ;
 la page de présentation d’une figure (contenant l’espace de discussion commun autour d’une figure).
+
+================================ Installation du projet ================================
+
+1. Télécharger l'archive du projet ou clonez le depuis le lien : https://github.com/BFH59/snowtricks.git
+
+2. Créez une copie du fichier .env (qui se situe à la racine du projet), renommez le fichier .env.local et mettez y vos variables d'environnements (identifiants de connexion au serveur smtp google mailer, identifiants de connexion à la base de donnée).
+
+3. Installez les différentes dépendances à l'aide de composer (https://getcomposer.org/download/)
+  -> lancer la commande " composer install "
+  
+4. Créez la base de données avec la commande :
+  -> php bin/console doctrine:database:create
+  
+5. Generez les tables de la base de données avec la commande : 
+   -> php bin/console doctrine:migrations:migrate
+   
+ 6. Créez un jeu de données à l'aider des fixtures avec la commande :
+ 
+   -> php bin/console doctrine:fixtures:load
+   
+ 7. Profitez de votre nouveau site communautaire !!
